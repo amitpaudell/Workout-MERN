@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 //get all workout
 exports.getWorkOuts = async (req, res) => {
-  const workouts = await WorkOut.find({}).sort({ createAt: -1 });
+  const workouts = await WorkOut.find({}).sort({ createdAt: -1 });
 
   res.status(200).json(workouts);
 };
@@ -19,7 +19,7 @@ exports.getWorkOut = async (req, res) => {
 
   const workout = await WorkOut.findById(id);
   if (!workout) {
-    return req.status(404).json({ error: 'No such workouts' });
+    return res.status(404).json({ error: 'No such workouts' });
   }
 
   res.status(200).json(workout);
@@ -36,7 +36,6 @@ exports.createWorkout = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-  res.json({ mssg: 'POST a new workout' });
 };
 
 //delete a workout
@@ -49,7 +48,7 @@ exports.deleteWorkout = async (req, res) => {
   const workout = await WorkOut.findOneAndDelete({ _id: id });
 
   if (!workout) {
-    return req.status(400).json({ error: 'No such workouts' });
+    return res.status(400).json({ error: 'No such workouts' });
   }
 
   res.status(200).json(workout);
@@ -69,7 +68,7 @@ exports.updateWorkout = async (req, res) => {
   );
 
   if (!workout) {
-    return req.status(400).json({ error: 'No such workouts' });
+    return res.status(400).json({ error: 'No such workouts' });
   }
 
   res.status(200).json(workout);
