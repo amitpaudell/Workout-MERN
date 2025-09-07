@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-
+import WorkOutDetails from '../components/WorkOutDetails';
+import WorkOutForm from '../components/WorkOutForm';
 const Home = () => {
   const [workouts, setWorkouts] = useState(null);
 
@@ -14,13 +15,31 @@ const Home = () => {
     };
     fetchWorkouts();
   }, []);
+
+  const handleDeleteWorkout = (id) => {
+    setWorkouts((prevWorkouts) =>
+      prevWorkouts.filter((workout) => workout._id !== id)
+    );
+  };
   return (
     <div>
       <h1 className="text-5xl">Home</h1>
-      {workouts &&
-        workouts.map((workout) => {
-          return <p key={workout._id}>{workout.title}</p>;
-        })}
+      <div>
+        {workouts &&
+          workouts.map((workout) => {
+            return (
+              <WorkOutDetails
+                key={workout._id}
+                workout={workout}
+                onDelete={handleDeleteWorkout}
+              ></WorkOutDetails>
+            );
+          })}
+      </div>
+
+      <div>
+        <WorkOutForm></WorkOutForm>
+      </div>
     </div>
   );
 };
